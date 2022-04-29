@@ -1,10 +1,17 @@
 
 export const calculate = async (req, res, next) => {
     try {
+        const currentRoll = req.body //Defines the number of pins knocked down in the current roll
+
+        //Logic for row calculation
+
+
+
+
         var currentFrameBall = 3
         var historicRoll = [] //Array for total calculation
         //historicRoll.length = 0
-        var currentRoll = 2 //value from button
+        // var currentRoll = 2 //value from button
         var previousFrameTotal = 0
         var currentFrameTotal = 0
 
@@ -45,10 +52,10 @@ export const calculate = async (req, res, next) => {
                 console.log(historicRoll)
             }
         }
-        console.log(previousFrameTotal)
-        console.log(currentFrameTotal)
-        console.log(historicRoll)
-        res.json(historicRoll)
+        //console.log(previousFrameTotal)
+        //console.log(currentFrameTotal)
+        //console.log(historicRoll)
+        res.json(currentRoll)
     } catch (error) {
         if (error instanceof Error && error.name == 'ValidationError') {
             next(new BadRequestError('Invalid Request', error))

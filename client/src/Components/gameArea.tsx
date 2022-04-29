@@ -1,65 +1,97 @@
 import Card from 'react-bootstrap/Card'
-// import React, { useState, useEffect } from 'react'
-// import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import './Styles/gameArea.css'
-// import { InitialState } from '../Types/types'
+import { getRollValue } from '../Redux-data/action'
+import { InitialState, Frame } from '../Types/types'
 
-function gameArea() {
-    // const dispatch = useDispatch();
-    // const frameValues = useSelector((state: InitialState) => state);
-
-    const getButtonValue = (btnValue: Number) => {
-        localStorage.setItem("btnValue", btnValue.toString())
-        //Populate the table from state
+export default function gameArea() {
+    //localStorage.clear();
+    const dispatch = useDispatch();
+    const frameValues = useSelector((state: InitialState) => state)
+    let frameData: Frame = {
+        currentRoll: frameValues.currentRoll,
+        frameTotal: frameValues.frameTotal,
+        frameValue: frameValues.frameValue,
+        gameTotal: frameValues.gameTotal,
+        historicRolls: frameValues.historicRolls,
+        rollIndex: frameValues.rollIndex,
+        strike: frameValues.strike,
+    }
+    var index = 0
+    //Choosing number of pins down
+    const selectRollValue = (rollValue: Number) => {
+        //1. Eliminate the buttons based on current value
+        //2. Check for strike
+        //3. Display data in the table
+        if (rollValue < 10) {
+            frameData.currentRoll = rollValue
+            frameData.rollIndex = index + 1
+            frameData.strike = false
+            frameData.historicRolls = frameData.historicRolls
+            frameData.frameTotal = frameData.frameTotal
+            frameData.frameValue = frameData.frameValue
+            frameData.gameTotal = frameData.gameTotal
+        }
+        else if (rollValue === 10) {
+            frameData.currentRoll = rollValue
+            frameData.rollIndex = index + 2
+            frameData.strike = true
+            frameData.historicRolls = frameData.historicRolls
+            frameData.frameTotal = frameData.frameTotal
+            frameData.frameValue = frameData.frameValue
+            frameData.gameTotal = frameData.gameTotal
+        }
+        console.log(frameData)
+        dispatch(getRollValue(frameData))
     }
 
     return (
         <div className="divBody">
             <Card className="cardBody">
                 <h4>Click to select the number of pins down:</h4>
-                <button className="btn" onClick={() => {
-                    getButtonValue(0)
+                <button className="btn" value="0" onClick={() => {
+                    selectRollValue(0)
                 }} >0</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <button className="btn" onClick={() => {
-                    getButtonValue(1)
+                <button className="btn" value="1" onClick={() => {
+                    selectRollValue(1)
                 }} >1</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <button className="btn" onClick={() => {
-                    getButtonValue(2)
+                <button className="btn" value="2" onClick={() => {
+                    selectRollValue(2)
                 }} >2</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <button className="btn" onClick={() => {
-                    getButtonValue(3)
+                <button className="btn" value="3" onClick={() => {
+                    selectRollValue(3)
                 }} >3</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(4)
+                    selectRollValue(4)
                 }} >4</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(5)
+                    selectRollValue(5)
                 }} >5</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(6)
+                    selectRollValue(6)
                 }} >6</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(7)
+                    selectRollValue(7)
                 }} >7</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(8)
+                    selectRollValue(8)
                 }} >8</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(9)
+                    selectRollValue(9)
                 }} >9</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <button className="btn" onClick={() => {
-                    getButtonValue(10)
+                    selectRollValue(10)
                 }} >10</button>
                 <br></br>
                 <br></br>
@@ -80,7 +112,7 @@ function gameArea() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{ }</td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -96,7 +128,4 @@ function gameArea() {
             </Card>
         </div >
     )
-
 }
-
-export default gameArea

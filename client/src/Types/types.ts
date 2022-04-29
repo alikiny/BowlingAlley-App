@@ -1,14 +1,25 @@
 export type Frame = {
-    roll_1: number,
-    roll_2: number,
-    frameTotal: number
+    currentRoll: Number,
+    historicRolls: Number[],
+    frameValue: Number,
+    frameTotal: Number,
+    gameTotal: Number,
+    rollIndex: Number,
+    strike: Boolean
 }
 
 export type InitialState = {
-    rolls: Frame[]
+    frameData: Frame,
+    currentRoll: Number,
+    historicRolls: Number[],
+    frameValue: Number,
+    frameTotal: Number,
+    gameTotal: Number,
+    rollIndex: Number,
+    strike: Boolean
 }
 
 export type SelectedRoll = {
     type: "SELECTED_ROLL",
-    payload: Frame[],
+    payload: Frame,
 }
